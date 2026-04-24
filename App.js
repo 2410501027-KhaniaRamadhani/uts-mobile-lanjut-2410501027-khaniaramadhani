@@ -31,7 +31,7 @@ export default function App() {
 
             return <Ionicons name={iconName} size={size} color={color} />;
           },
-          tabBarActiveTintColor: 'tomato',
+          tabBarActiveTintColor: '#083e3c',
           tabBarInactiveTintColor: 'gray',
         })}
       >
