@@ -48,10 +48,7 @@ export default function HomeScreen({ navigation }) {
   const renderItem = ({ item }) => (
     <TouchableOpacity
       style={styles.itemContainer}
-      onPress={() => {
-       
-        console.log('Show ID:', item.id, 'Name:', item.name);
-      }}
+      onPress={() => navigation.navigate('Detail', { id: item.id })}
     >
       <Image
         source={{
