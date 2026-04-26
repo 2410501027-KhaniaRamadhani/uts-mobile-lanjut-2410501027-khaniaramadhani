@@ -9,12 +9,13 @@ import {
   TouchableOpacity,
   Linking,
 } from 'react-native';
-
+import { useFavorites } from '../context/FavoritesContext';
 export default function DetailScreen({ route, navigation }) {
   const { id } = route.params;
   const [show, setShow] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+   const { addFavorite, removeFavorite, isFavorite } = useFavorites();
 
   const fetchDetail = async () => {
     try {
@@ -149,15 +150,23 @@ export default function DetailScreen({ route, navigation }) {
       </View>
 
       <View style={styles.actionContainer}>
-        <TouchableOpacity
-          style={styles.favButton}
-          onPress={() => {
-            alert('fitur ini next untuk hari ke 5 ya pak HEHE');
-          }}
-        >
-          <Text style={styles.favButtonText}>❤ Tambah ke Favorit</Text>
-        </TouchableOpacity>
-
+       <TouchableOpacity
+  style={[
+    styles.favButton,
+    isFavorite(show.id) && styles.favButtonActive,
+  ]}
+  onPress={() => {
+    if (isFavorite(show.id)) {
+      removeFavorite(show.id);
+    } else {
+      addFavorite(show);
+    }
+  }}
+>
+  <Text style={styles.favButtonText}>
+    {isFavorite(show.id) ? '💔 Hapus dari Favorit' : '❤ Tambah ke Favorit'}
+  </Text>
+</TouchableOpacity>
         {officialSite && (
           <TouchableOpacity
             style={styles.siteButton}
@@ -284,6 +293,9 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     borderRadius: 10,
     alignItems: 'center',
+  },
+   favButtonActive: {
+    backgroundColor: 'white',
   },
   favButtonText: {
     color: '#083e3c',
